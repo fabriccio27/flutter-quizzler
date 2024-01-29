@@ -53,6 +53,7 @@ class _QuizPageState extends State<QuizPage> {
             child: TextButton(
               style: TextButton.styleFrom(
                 backgroundColor: Colors.green,
+                shape: BeveledRectangleBorder()
               ),
               child: Text(
                 'True',
@@ -73,6 +74,7 @@ class _QuizPageState extends State<QuizPage> {
             child: TextButton(
               style: TextButton.styleFrom(
                 backgroundColor: Colors.red,
+                shape: BeveledRectangleBorder()
               ),
               child: Text(
                 'False',
