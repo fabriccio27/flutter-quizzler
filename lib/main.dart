@@ -34,11 +34,11 @@ class _QuizPageState extends State<QuizPage> {
 
   void incrementQuestionNumber() {
     setState(() {
-      questionNumber = (questionNumber + 1) % quizBrain.getQuestionLength();
+      quizBrain.nextQuestion();
     });
   }
   void checkAnswer(bool userPickedAnswer) {
-    bool currentQuestionAnswer = quizBrain.getQuestionAnswer(questionNumber);
+    bool currentQuestionAnswer = quizBrain.getQuestionAnswer();
     if (userPickedAnswer == currentQuestionAnswer) {
       scoreKeeper.add(Icon(
         Icons.check,
@@ -64,7 +64,7 @@ class _QuizPageState extends State<QuizPage> {
             padding: EdgeInsets.all(10.0),
             child: Center(
               child: Text(
-                quizBrain.getQuestionText(questionNumber),
+                quizBrain.getQuestionText(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 25.0,
