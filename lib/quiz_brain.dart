@@ -48,4 +48,11 @@ class QuizBrain {
   int getQuestionLength() {
     return _questions.length;
   }
+  void reset() {
+    _questionNumber = 0;
+  }
+
+  bool isFinished() {
+    return _questionNumber >= _questions.length - 1;
+  }
 }

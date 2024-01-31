@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'quiz_brain.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 QuizBrain quizBrain = QuizBrain();
 
@@ -37,18 +38,45 @@ class _QuizPageState extends State<QuizPage> {
       quizBrain.nextQuestion();
     });
   }
+
   void checkAnswer(bool userPickedAnswer) {
     bool currentQuestionAnswer = quizBrain.getQuestionAnswer();
-    if (userPickedAnswer == currentQuestionAnswer) {
-      scoreKeeper.add(Icon(
-        Icons.check,
-        color: Colors.green,
-      ));
+    bool reachedEnd = quizBrain.isFinished();
+    
+    if (reachedEnd) {
+      Alert(
+        context: context,
+        type: AlertType.error,
+        title: "Quiz Ended!",
+        desc: "The quiz has ended and it will be restarted.",
+        buttons: [
+          DialogButton(
+            child: Text(
+              "COOL",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+            onPressed: () => Navigator.pop(context),
+            width: 120,
+          )
+        ],
+      ).show();
+      quizBrain.reset();
+      setState(() {
+        scoreKeeper = [];  
+      });
     } else {
-      scoreKeeper.add(Icon(
-        Icons.close,
-        color: Colors.red,
-      ));
+      if (userPickedAnswer == currentQuestionAnswer) {
+        scoreKeeper.add(Icon(
+          Icons.check,
+          color: Colors.green,
+        ));
+      } else {
+        scoreKeeper.add(Icon(
+          Icons.close,
+          color: Colors.red,
+        ));
+      }
+      incrementQuestionNumber();
     }
   }
 
@@ -91,7 +119,6 @@ class _QuizPageState extends State<QuizPage> {
               ),
               onPressed: () {
                 checkAnswer(true);
-                incrementQuestionNumber();
               },
             ),
           ),
@@ -113,7 +140,6 @@ class _QuizPageState extends State<QuizPage> {
               ),
               onPressed: () {
                 checkAnswer(false);
-                incrementQuestionNumber();
               },
             ),
           ),
